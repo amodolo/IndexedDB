@@ -19,7 +19,10 @@ Ext.define('Demo.view.Main', {
             },{
                 xtype:'formpanel',
                 scrollable:null,
-                layout:'hbox',
+                layout:{
+                    type:'hbox',
+                    align:'center'
+                },
                 items:[
                     {
                         xtype:'textfield',
