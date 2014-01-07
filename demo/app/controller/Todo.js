@@ -6,7 +6,9 @@ Ext.define('Demo.controller.Todo',{
         refs: {
         	field: 'main #todo',
         	addButton: 'main button[action=add]',
-        	list: 'main #todoList'
+        	list: 'main #todoList',
+
+            item: 'todoItem button[action=delete]'
         },	
 
 		control: {
@@ -15,6 +17,9 @@ Ext.define('Demo.controller.Todo',{
             },
             field:{
             	keyup: 'onFieldKeyup'
+            },
+            item:{
+                deleteTodoItem:'deleteItem'
             }
         }
     },
@@ -34,5 +39,12 @@ Ext.define('Demo.controller.Todo',{
 		    e.stopEvent();
 		    this.addTodo();
 		}
+    },
+
+    deleteItem: function(record){
+        var store = Ext.getStore('todo');
+        store.remove(record);
+        store.sync();
+
     }
 });

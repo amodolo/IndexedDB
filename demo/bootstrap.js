@@ -25,6 +25,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "Demo.model.Todo": [],
   "Demo.store.Todo": [],
   "Demo.view.Main": [],
+  "Demo.view.TodoItem": [],
   "Ext.AbstractComponent": [],
   "Ext.AbstractManager": [],
   "Ext.AbstractPlugin": [],
@@ -758,6 +759,9 @@ Ext.ClassManager.addNameAliasMappings({
   "Demo.store.Todo": [],
   "Demo.view.Main": [
     "widget.main"
+  ],
+  "Demo.view.TodoItem": [
+    "widget.todoItem"
   ],
   "Ext.AbstractComponent": [],
   "Ext.AbstractManager": [],

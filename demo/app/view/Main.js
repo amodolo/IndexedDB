@@ -5,7 +5,8 @@ Ext.define('Demo.view.Main', {
         'Ext.TitleBar',
         'Ext.form.Panel',
         'Ext.dataview.List',
-        'Demo.store.Todo'
+        'Demo.store.Todo',
+        'Demo.view.TodoItem'
     ],
     config: {
         layout:'vbox',
@@ -29,7 +30,7 @@ Ext.define('Demo.view.Main', {
                     {
                         xtype:'button',
                         action:'add',
-                        text:'add',
+                        iconCls:'add',
                         ui:'confirm'
                     }
                 ]
@@ -37,7 +38,8 @@ Ext.define('Demo.view.Main', {
                 xtype:'list',
                 itemId:'todoList',
                 store:'todo',
-                itemTpl:'{text}',
+                useComponents: true,
+                defaultType:'todoItem',
                 flex:1
             }
 
