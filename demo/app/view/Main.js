@@ -15,7 +15,12 @@ Ext.define('Demo.view.Main', {
             {
                 xtype:'titlebar',
                 title:'ToDoS',
-                docked:'top'
+                docked:'top',
+                items:{
+                    align:'right',
+                    action:'removeall',
+                    text:'Remove all'
+                }
             },{
                 xtype:'formpanel',
                 scrollable:null,

@@ -6,6 +6,7 @@ Ext.define('Demo.controller.Todo',{
         refs: {
         	field: 'main #todo',
         	addButton: 'main button[action=add]',
+            removeAllButton: 'main titlebar button[action=removeall]',
         	list: 'main #todoList',
 
             item: 'todoItem button[action=delete]'
@@ -14,6 +15,9 @@ Ext.define('Demo.controller.Todo',{
 		control: {
             addButton:{
             	tap: 'addTodo'
+            },
+            removeAllButton:{
+                tap: 'removeall'
             },
             field:{
             	keyup: 'onFieldKeyup'
@@ -32,6 +36,11 @@ Ext.define('Demo.controller.Todo',{
 
     	this.getField().reset();
 	    this.getField().element.dom.blur();
+    },
+
+    removeall: function(){
+        Ext.getStore('todo').clearData();
+        this.getList().getStore().getProxy().deleteDatabase();
     },
 
     onFieldKeyup: function(sender, e, eOpts){

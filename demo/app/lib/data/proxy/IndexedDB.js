@@ -3,7 +3,7 @@ Ext.define('Lib.data.proxy.IndexedDB',{
     extend:'Ext.data.proxy.Client',
     alternateClassName: 'Lib.IndexedDB',
 
-    db:null,
+    db: null,
 
     config:{
         /**
@@ -45,8 +45,10 @@ Ext.define('Lib.data.proxy.IndexedDB',{
         window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
     },
 
-    destroy: function() {
-        this.db.close();
+    destroy: function(){
+        if(this.db)
+            this.db.close();
+
         this.callParent(arguments);
     },
 
@@ -88,6 +90,13 @@ Ext.define('Lib.data.proxy.IndexedDB',{
         };
 
         request.onsuccess = function(event){
+            var db = this.db = event.target.result;
+            //handle onversionchange event in order to close the database before its delete
+            db.onversionchange = function(event){
+                db.close();
+                return;
+            };
+
             if(typeof success==='function')
                 success.call(me,event.target.result);
         };
@@ -318,8 +327,7 @@ Ext.define('Lib.data.proxy.IndexedDB',{
         var me=this;
 
         function openSuccess(db){
-            var objectStore = db.transaction(me.getTable(),"readwrite")
-                                .objectStore(me.getTable());
+            var objectStore = db.transaction(me.getTable(),"readwrite").objectStore(me.getTable());
 
             objectStore.openCursor().onsuccess = function(event){
                 var cursor = event.target.result;
@@ -335,5 +343,27 @@ Ext.define('Lib.data.proxy.IndexedDB',{
         };
 
         this.open(openSuccess, openFail);
+    },
+
+
+    /**
+     * Performs the drop of the database.
+     * @param {Function} callback Callback function to be called when the Operation has completed (whether successful or not)
+     * @param {Object} scope Scope to execute the callback function in
+     * @method
+     */
+    deleteDatabase: function(callback, scope){
+        var me = this;
+
+        var request = window.indexedDB.deleteDatabase(me.getDatabase());
+        request.onerror = function(event){
+            if(typeof callback==='function')
+                callback.call(scope||me, event.target.error);
+        };
+
+        request.onsuccess = function(event){
+            if(typeof callback==='function')
+                callback.call(scope||me, event.target.result);
+        };
     }
 });
